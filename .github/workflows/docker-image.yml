@@ -16,7 +16,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '17'  # Você pode escolher a versão do Java apropriada
+          java-version: '17'
+          distribution: 'openjdk'
 
       - name: Build the application
         run: |
