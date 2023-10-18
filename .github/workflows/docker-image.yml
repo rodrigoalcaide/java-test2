@@ -38,5 +38,5 @@ jobs:
 
       - name: Restart Tomcat
         run: |
-          # Reinicie o contêiner Tomcat para implantar a aplicação
+          # Reinicie o  contêiner Tomcat para implantar a aplicação
           docker restart tomcat-container
