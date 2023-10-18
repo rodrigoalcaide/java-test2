@@ -28,6 +28,8 @@ jobs:
           
       - name: Start Tomcat Container
         run: |
+          docker stop tomcat-container || true
+          docker rm tomcat-container || true
           docker run -d --name tomcat-container -p 8080:8080 tomcat:latest
           
       - name: Deploy to Tomcat
