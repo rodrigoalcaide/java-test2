@@ -1,0 +1,44 @@
+name: Deploy to Tomcat
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          #cache: maven
+
+      - name: Build the application
+        run: |
+          # Comandos para construir sua aplicação, como compilação e empacotamento
+          # Exemplo para um projeto Maven:
+          mvn clean install
+          
+      - name: Start Tomcat Container
+        run: |
+          docker stop tomcat-container
+          docker rm tomcat-container
+          docker run -d --name tomcat-container -p 8080:8080 tomcat:latest
+          
+      - name: Deploy to Tomcat
+        run: |
+          # Copie o arquivo WAR (ou outros artefatos) para a pasta webapps do contêiner Tomcat
+          docker cp target/JSPSample-0.0.1.war tomcat-container:/usr/local/tomcat/webapps/
+        working-directory: ${{ github.workspace }}
+
+      - name: Restart Tomcat
+        run: |
+          # Reinicie o  contêiner Tomcat para implantar a aplicação
+          docker restart tomcat-container
