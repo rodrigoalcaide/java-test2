@@ -49,28 +49,6 @@ jobs:
           } else {
             Write-Host "Container is up"
           }
-
-     # - name: Start Tomcat Container
-     #   id: container_check2
-     #   run: |
-     #     estado=$(docker inspect -f '{{.State.Status}}' tomcat-container)
-     #     if [ "$estado" = "exited" ]; then
-     #       echo "Container is down."
-     #       docker start tomcat-container
-     #       echo "Starting the container."
-     #     else
-     #       echo "Container is up."
-     #     fi
-          
-
-            
-        
-          
-      #- name: Start Tomcat Container
-      #  run: |
-      #    docker stop tomcat-container
-      #    docker rm tomcat-container
-      #    docker run -d --name tomcat-container -p 8080:8080 tomcat:latest
           
       - name: Deploy to Tomcat
         run: |
