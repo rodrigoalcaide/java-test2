@@ -37,7 +37,20 @@ jobs:
       - name: Create Container
         if: steps.container_check.outputs.container_exists == 'false'
         run: |
-          docker run -d --name tomcat-container -p 8080:8080 tomcat:latest   
+          docker run -d --name tomcat-container -p 8080:8080 tomcat:latest  
+
+      - name: Start Tomcat Container
+        id: container_check2
+        run: |
+          container_state=$(docker inspect -f '{{.State.Status}}' tomcat-container)
+          if(container_state=="running"){
+            Write-Host "Container is up."
+          } else {
+            docker start tomcat-container
+          }
+
+            
+        
           
       #- name: Start Tomcat Container
       #  run: |
