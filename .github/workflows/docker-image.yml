@@ -42,8 +42,8 @@ jobs:
       - name: Start Tomcat Container
         id: container_check2
         run: |
-          container_state = $(docker inspect -f '{{.State.Status}}' tomcat-container)
-          if (container_state = "exited") {
+          #container_state = $(docker inspect -f '{{.State.Status}}' tomcat-container)
+          if ($(docker inspect -f '{{.State.Status}}' tomcat-container = "exited") {
             Write-Host "Container is down."
             docker start tomcat-container
           } else {
