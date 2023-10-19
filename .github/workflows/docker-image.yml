@@ -27,7 +27,7 @@ jobs:
       - name: Check if Container Exists
         id: container_check
         run: |
-          if docker ps -q -f name=tomcat-container; then
+          if (docker ps -q -f name=tomcat-container); then
             echo "Container already exists."
             echo "::set-output name=container_exists::true"
           else
