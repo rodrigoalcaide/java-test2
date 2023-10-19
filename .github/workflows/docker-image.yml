@@ -43,7 +43,7 @@ jobs:
         id: container_check2
         run: |
           container_state=$(docker inspect -f '{{.State.Status}}' tomcat-container)
-          if(container_state=="running"){
+          if (container_state=="running") {
             Write-Host "Container is up."
           } else {
             docker start tomcat-container
