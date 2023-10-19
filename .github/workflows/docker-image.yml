@@ -22,15 +22,28 @@ jobs:
 
       - name: Build the application
         run: |
-          # Comandos para construir sua aplicação, como compilação e empacotamento
-          # Exemplo para um projeto Maven:
           mvn clean install
           
-      - name: Start Tomcat Container
+      - name: Check if Container Exists
+        id: container_check
         run: |
-          docker stop tomcat-container
-          docker rm tomcat-container
-          docker run -d --name tomcat-container -p 8080:8080 tomcat:latest
+          if docker ps -q -f name=nome-do-contêiner; then
+            echo "Container already exists."
+            echo "::set-output name=container_exists::true"
+          else
+            echo "Container does not exist."
+            echo "::set-output name=container_exists::false"
+          fi    
+      - name: Create Container
+        if: steps.container_check.outputs.container_exists == 'false'
+        run: |
+          docker run -d --name tomcat-container -p 8080:8080 tomcat:latest   
+          
+      #- name: Start Tomcat Container
+      #  run: |
+      #    docker stop tomcat-container
+      #    docker rm tomcat-container
+      #    docker run -d --name tomcat-container -p 8080:8080 tomcat:latest
           
       - name: Deploy to Tomcat
         run: |
@@ -40,5 +53,4 @@ jobs:
 
       - name: Restart Tomcat
         run: |
-          # Reinicie o  contêiner Tomcat para implantar a aplicação
           docker restart tomcat-container
