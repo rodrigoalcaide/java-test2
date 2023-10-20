@@ -52,7 +52,6 @@ jobs:
           
       - name: Deploy to Tomcat
         run: |
-          # Copie o arquivo WAR (ou outros artefatos) para a pasta webapps do contêiner Tomcat
           docker cp target/JSPSample-0.0.1.war tomcat-container:/usr/local/tomcat/webapps/
         working-directory: ${{ github.workspace }}
 
