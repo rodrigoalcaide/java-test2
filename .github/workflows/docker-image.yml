@@ -27,27 +27,31 @@ jobs:
       - name: Check if Container Exists
         id: container_check
         run: |
-          if (docker ps -q -f name=tomcat-container) {
+          if (docker ps -a -f name=tomcat-container) {
             Write-Host "Container already exists."
             Write-Host "::set-output name=container_exists::true"
           } else {
             Write-Host "Container does not exist."
             Write-Host "::set-output name=container_exists::false"
-          }   
+          }  
       - name: Create Container
         if: steps.container_check.outputs.container_exists == 'false'
         run: |
-          docker run -d --name tomcat-container -p 8080:8080 tomcat:latest   
-          
-      #- name: Start Tomcat Container
-      #  run: |
-      #    docker stop tomcat-container
-      #    docker rm tomcat-container
-      #    docker run -d --name tomcat-container -p 8080:8080 tomcat:latest
+          docker run -d --name tomcat-container -p 8080:8080 tomcat:latest  
+
+      - name: Start Tomcat Container
+        id: container_check2
+        run: |
+          $container_state = docker inspect -f '{{.State.Status}}' tomcat-container
+          if ($container_state = "exited") {
+            Write-Host "Container is down."
+            docker start tomcat-container
+          } else {
+            Write-Host "Container is up"
+          }
           
       - name: Deploy to Tomcat
         run: |
-          # Copie o arquivo WAR (ou outros artefatos) para a pasta webapps do contêiner Tomcat
           docker cp target/JSPSample-0.0.1.war tomcat-container:/usr/local/tomcat/webapps/
         working-directory: ${{ github.workspace }}
 
