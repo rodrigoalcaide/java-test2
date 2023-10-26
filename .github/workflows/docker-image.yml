@@ -19,9 +19,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
-      - name: Build the application
-        run: |
-          mvn clean install
+      - name: action-maven
+        uses: comchangs/action-maven@v0.4-beta
 
       - name: Pull Docker Image
         run: |
