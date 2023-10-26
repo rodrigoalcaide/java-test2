@@ -26,7 +26,18 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
+      - name: Check if Container Exists
+        id: container_check
+        run: |
+          if (docker ps -a -f name=tomcat-container) {
+            Write-Host "Container already exists."
+            Write-Host "::set-output name=container_exists::true"
+          } else {
+            Write-Host "Container does not exist."
+            Write-Host "::set-output name=container_exists::false"
+          }  
       - name: Create Container
+        if: steps.container_check.outputs.container_exists == 'false'
         run: |
           docker run -d --name tomcat-container -p 8080:8080 rodrigoalcaide/tomcat_image
 
