@@ -26,16 +26,11 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
-      #- name: Create Container
-      #  run: |
-      #    docker run -d --name tomcat-container -p 8080:8080 rodrigo/tomcat_image:latest
+      - name: Create Container
+        run: |
+          docker run -d --name tomcat-container -p 8080:8080 rodrigo/tomcat_image:latest
 
-      - name: Docker Run
-        uses: tj-actions/docker-run@v2.2.1
-        with:
-          image: rodrigo/tomcat_image:latest
-          name: tomcat-container
-          args: -p 8080:8080
+      
 
 
       - name: Deploy to Tomcat
