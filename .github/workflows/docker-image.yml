@@ -46,7 +46,7 @@ jobs:
 
       - name: Deploy to Tomcat
         run: |
-          docker cp C:\Users\rodrigo.r.alcaide\Desktop\Tarefa_TomCat\java-test\target\JSPSample-0.0.1.war tomcat-container:/usr/local/tomcat/webapps/
+          docker cp ${{ secrets.PATH_TO_WAR }} tomcat-container:/usr/local/tomcat/webapps/
         working-directory: ${{ github.workspace }}
 
       - name: Restart Tomcat
