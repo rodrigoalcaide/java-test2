@@ -19,15 +19,34 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
-      - name: Creating a maven build
-        uses: PrajjawalBanati/Build_Management_Using_Maven@0.0.1
-
-      - name: Pull Docker Image
+      - name: Build the application
         run: |
-          docker pull rodrigoalcaide/tomcat_image:latest
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          mvn clean install
+
+      - name: Docker image exists
+        uses: cloudposse/github-action-docker-image-exists@0.1.2
+        with:
+          # Organization
+          organization: dockerhub
+          # Repository
+          repository: tomcat_image
+          # Docker registry
+          registry: rodrigoalcaide
+          # Image name (excluding registry). Defaults to {{$organization/$repository}}.
+          image_name: tomcat_image
+          # Tag
+          tag: latest
+          # Docker login
+          login: ${{ secrets.DOCKER_PASSWORD }}
+          # Docker password
+          password: ${{ secrets.DOCKER_USERNAME }}
+
+      #- name: Pull Docker Image
+      #  run: |
+      #    docker pull rodrigoalcaide/tomcat_image:latest
+      #  env:
+      #    DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      #    DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Check if Container Exists
         id: container_check
