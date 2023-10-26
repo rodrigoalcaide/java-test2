@@ -45,13 +45,16 @@ jobs:
       #  run: |
       #    docker run -d --name tomcat-container -p 8080:8080 rodrigoalcaide/tomcat_image
 
-      - name: Run within Docker
-        # You may pin to the exact commit or the version.
-        # uses: mosteo-actions/docker-run@1e8c2ac951679fbb21485cbb4eed9e39246ad823
-        uses: mosteo-actions/docker-run@v1
+      - name: Docker Run Action
+        uses: addnab/docker-run-action@v3
         with:
-          # A dockerhub image
           image: rodrigoalcaide/tomcat_image
+          options: -d --name tomcat-container -p 8080:8080
+          run: /usr/local/tomcat/webapps
+          registry: https://index.docker.io/v1/
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
           
 
 
