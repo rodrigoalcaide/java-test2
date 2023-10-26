@@ -18,12 +18,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          #cache: maven
 
-      - name: Build the application
+      - name: Pull Docker Image
         run: |
-          mvn clean install
-          
+          docker pull rodrigoalcaide/tomcat_image:latest
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
       - name: Check if Container Exists
         id: container_check
         run: |
@@ -37,24 +39,17 @@ jobs:
       - name: Create Container
         if: steps.container_check.outputs.container_exists == 'false'
         run: |
-          docker run -d --name tomcat-container -p 8080:8080 tomcat:latest  
+          docker run -d --name tomcat-container -p 8080:8080 rodrigoalcaide/tomcat_image
 
-      - name: Start Tomcat Container
-        id: container_check2
-        run: |
-          $container_state = docker inspect -f '{{.State.Status}}' tomcat-container
-          if ($container_state = "exited") {
-            Write-Host "Container is down."
-            docker start tomcat-container
-          } else {
-            Write-Host "Container is up"
-          }
-          
+      
+
+
       - name: Deploy to Tomcat
         run: |
-          docker cp target/JSPSample-0.0.1.war tomcat-container:/usr/local/tomcat/webapps/
+          docker cp ${{ secrets.PATH_TO_WAR }} tomcat-container:/usr/local/tomcat/webapps/
         working-directory: ${{ github.workspace }}
 
       - name: Restart Tomcat
         run: |
           docker restart tomcat-container
+
