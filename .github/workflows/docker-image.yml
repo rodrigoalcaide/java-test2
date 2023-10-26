@@ -40,26 +40,10 @@ jobs:
             Write-Host "Container does not exist."
             Write-Host "::set-output name=container_exists::false"
           }  
-      #- name: Create Container
-      #  if: steps.container_check.outputs.container_exists == 'false'
-      #  run: |
-      #    docker run -d --name tomcat-container -p 8080:8080 rodrigoalcaide/tomcat_image
-
-      - name: Docker Run
-        # You may pin to the exact commit or the version.
-        # uses: tj-actions/docker-run@1d25a677da8f1243a138dc5db21e307e92986ffe
-        uses: tj-actions/docker-run@v2.2.1
-        with:
-          # Docker image
-          image: rodrigoalcaide/tomcat_image
-          # Container name
-          name: tomcat-container
-          # Command to run
-          #args: # optional
-          # Options to pass to docker run
-          #options: # optional, default is 
-      
-                
+      - name: Create Container
+        if: steps.container_check.outputs.container_exists == 'false'
+        run: |
+          docker run -d --name tomcat-container -p 8080:8080 rodrigoalcaide/tomcat_image   
       
 
       - name: Deploy to Tomcat
