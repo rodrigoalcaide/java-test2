@@ -45,18 +45,14 @@ jobs:
       #  run: |
       #    docker run -d --name tomcat-container -p 8080:8080 rodrigoalcaide/tomcat_image
 
-      - name: Checkout 
-        uses: actions/checkout@v2 # Required to mount the Github Workspace to a volume 
-      - uses: addnab/docker-run-action@v3
+      - name: Run within Docker
+        # You may pin to the exact commit or the version.
+        # uses: mosteo-actions/docker-run@1e8c2ac951679fbb21485cbb4eed9e39246ad823
+        uses: mosteo-actions/docker-run@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: gcr.io
-          image: private-image:latest
-          options: -v ${{ github.workspace }}:/work -e ABC=123
-          run: |
-            echo "Running Script"
-            /work/run-script
+          # A dockerhub image
+          image: rodrigoalcaide/tomcat_image
+          
 
 
       - name: Deploy to Tomcat
