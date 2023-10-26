@@ -34,7 +34,8 @@ jobs:
         uses: tj-actions/docker-run@v2.2.1
         with:
           image: rodrigo/tomcat_image:latest
-          name: -d --name tomcat-container -p 8080:8080 rodrigo/tomcat_image:latest
+          name: tomcat-container
+          args: -d --name tomcat-container -p 8080:8080 tomcat:latest
 
 
       - name: Deploy to Tomcat
