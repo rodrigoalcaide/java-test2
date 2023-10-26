@@ -19,8 +19,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
-      - name: action-maven
-        uses: comchangs/action-maven@v0.4-beta
+      - name: Creating a maven build
+        uses: PrajjawalBanati/Build_Management_Using_Maven@0.0.1
 
       - name: Pull Docker Image
         run: |
