@@ -40,12 +40,23 @@ jobs:
             Write-Host "Container does not exist."
             Write-Host "::set-output name=container_exists::false"
           }  
-      - name: Create Container
-        if: steps.container_check.outputs.container_exists == 'false'
-        run: |
-          docker run -d --name tomcat-container -p 8080:8080 rodrigoalcaide/tomcat_image
+      #- name: Create Container
+      #  if: steps.container_check.outputs.container_exists == 'false'
+      #  run: |
+      #    docker run -d --name tomcat-container -p 8080:8080 rodrigoalcaide/tomcat_image
 
-      
+      - name: Checkout 
+        uses: actions/checkout@v2 # Required to mount the Github Workspace to a volume 
+      - uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: gcr.io
+          image: private-image:latest
+          options: -v ${{ github.workspace }}:/work -e ABC=123
+          run: |
+            echo "Running Script"
+            /work/run-script
 
 
       - name: Deploy to Tomcat
