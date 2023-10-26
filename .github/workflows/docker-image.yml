@@ -28,7 +28,7 @@ jobs:
 
       - name: Create Container
         run: |
-          docker run -d --name tomcat-container -p 8080:8080 rodrigo/tomcat_image:latest
+          docker run -d --name tomcat-container -p 8080:8080 rodrigo/tomcat_image
 
       
 
