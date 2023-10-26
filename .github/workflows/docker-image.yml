@@ -35,7 +35,7 @@ jobs:
         with:
           image: rodrigo/tomcat_image:latest
           name: tomcat-container
-          args: -d --name tomcat-container -p 8080:8080 tomcat:latest
+          args: -p 8080:8080
 
 
       - name: Deploy to Tomcat
