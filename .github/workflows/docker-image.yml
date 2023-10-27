@@ -25,10 +25,10 @@ jobs:
 
       - name: Pull Docker Image
         run: |
-          docker pull rodrigoalcaide/tomcat_image:latest
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          docker pull ghcr.io/rodrigoalcaide/tomcat_image:latest
+        #env:
+        #  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        #  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Check if Container Exists
         id: container_check
